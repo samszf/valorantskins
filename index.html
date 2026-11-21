@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valorant Skins — todas as skins de armas</title>
+<meta name="description" content="Marque as skins de armas do VALORANT que você tem e quer, veja estatísticas da coleção e gere uma imagem da sua lista.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5l8 14h4L6 5zM22 5h-5l-5 8.5 2 3.5z" fill="currentColor"/></svg>Valorant Skins</h1>
+  <select id="lg" aria-label="Language"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option></select>
+  <input type="search" id="q" placeholder="Buscar skin ou arma…">
+  <span class="seg"><button id="mo" class="on">Tenho</button><button id="mw">Quero</button></span>
+  <span class="cnt o">Tenho: <b id="no">0</b><em><b id="ro">0</b> VP</em></span>
+  <span class="cnt w">Quero: <b id="nw">0</b><em><b id="rw">0</b> VP</em></span>
+  <span class="act"><button id="bs">Estatísticas</button> <button id="bl">Compartilhar</button> <button id="bi">Imagem</button> <button id="bc">Limpar</button></span>
+</header>
+<div class="fl">
+  <select id="fr"><option value="">Raridade</option></select>
+  <select id="fn"><option value="">Coleção</option></select>
+  <select id="so"><option value="n">Ordem padrão</option><option value="p">Preço ↓</option></select>
+  <label>até <input type="number" id="fp" min="0" step="100" style="width:90px" placeholder="VP"></label>
+  <span id="inf"></span>
+</div>
+<div id="ban">Você está vendo uma lista compartilhada (não será salva). <button id="keep">Salvar como minha</button></div>
+<div id="app"><aside id="cl"></aside><main><div id="grid">Carregando…</div></main></div>
+<footer>Projeto de fãs, não endossado pela Riot Games. VALORANT e Riot Games são marcas da Riot Games, Inc. Dados da valorant-api.com. Preços com "~" são estimativas pela raridade; facas e pacotes especiais podem variar.</footer>
+
+<div class="md" id="st"><div><p><button class="x">Fechar</button></p><div id="sb"></div></div></div>
+<div class="md" id="ex"><div>
+  <p><button class="x">Fechar</button></p>
+  <p>
+    <select id="xl"><option value="o">Lista: Tenho</option><option value="w">Lista: Quero</option></select>
+    <select id="xs"><option value="170">Pequeno</option><option value="220" selected>Médio</option><option value="290">Grande</option></select>
+    <select id="xt"><option value="d">Tema escuro</option><option value="l">Tema claro</option></select>
+    <label><input type="checkbox" id="xg" checked> Agrupar por arma</label>
+    <label><input type="checkbox" id="xp" checked> Preços</label>
+    <button id="xm">Gerar</button>
+  </p>
+</div></div>
+<div class="md" id="out"><div><p><button class="x">Fechar</button> <a id="dl" download="minhas-skins-valorant.png"><button>Baixar PNG</button></a> <button onclick="print()">Salvar PDF / Imprimir</button></p><img id="res" alt=""></div></div>
+
+<script>
+const $=i=>document.getElementById(i),LS='valsel2';
+let lang='en';try{const n=navigator.language.slice(0,2);lang=localStorage.valLang||(['pt','es'].includes(n)?n:'en')}catch{}
+const M={
+pt:{res:'Resultados',more:' (mostrando 400, refine a busca)',clr:'Limpar tenho e quero?',cp:'Link copiado!',cpy:'Copie o link:',own:'Minhas skins',wish:'Skins que quero',empty:'A lista escolhida está vazia.',cors:'O navegador bloqueou a exportação (CORS).',err:'Não foi possível carregar o arquivo de skins. Rode "node build.mjs" (ou o workflow do GitHub) para gerá-lo.',
+ h2:'Sua coleção',of:'de',val:'valor estimado',miss:'Falta para completar a lista “Quero”',cols:'Coleções mais colecionadas',wps:'Armas mais completas',ui:{}},
+en:{res:'Results',more:' (showing 400, refine your search)',clr:'Clear owned and wishlist?',cp:'Link copied!',cpy:'Copy the link:',own:'My skins',wish:'Skins I want',empty:'The chosen list is empty.',cors:'The browser blocked the export (CORS).',err:'Could not load the skins file. Run "node build.mjs" (or the GitHub workflow) to generate it.',
+ h2:'Your collection',of:'of',val:'estimated value',miss:'Needed to complete your Wishlist',cols:'Most collected collections',wps:'Most complete weapons',
+ ui:{'Buscar skin ou arma…':'Search skin or weapon…','Tenho':'Owned','Quero':'Wishlist','Tenho:':'Owned:','Quero:':'Wishlist:','Estatísticas':'Stats','Compartilhar':'Share','Imagem':'Image','Limpar':'Clear','Raridade':'Rarity','Coleção':'Collection','Ordem padrão':'Default order','Preço ↓':'Price ↓','até':'up to','Você está vendo uma lista compartilhada (não será salva).':'You are viewing a shared list (it will not be saved).','Salvar como minha':'Save as mine','Carregando…':'Loading…','Fechar':'Close','Lista: Tenho':'List: Owned','Lista: Quero':'List: Wishlist','Pequeno':'Small','Médio':'Medium','Grande':'Large','Tema escuro':'Dark theme','Tema claro':'Light theme','Agrupar por arma':'Group by weapon','Preços':'Prices','Gerar':'Generate','Baixar PNG':'Download PNG','Salvar PDF / Imprimir':'Save PDF / Print','Projeto de fãs, não endossado pela Riot Games. VALORANT e Riot Games são marcas da Riot Games, Inc. Dados da valorant-api.com. Preços com "~" são estimativas pela raridade; facas e pacotes especiais podem variar.':'Fan project, not endorsed by Riot Games. VALORANT and Riot Games are trademarks of Riot Games, Inc. Data from valorant-api.com. Prices marked "~" are estimates based on rarity; knives and special bundles may differ.'}},
+es:{res:'Resultados',more:' (mostrando 400, afina la búsqueda)',clr:'¿Borrar tengo y quiero?',cp:'¡Enlace copiado!',cpy:'Copia el enlace:',own:'Mis aspectos',wish:'Aspectos que quiero',empty:'La lista elegida está vacía.',cors:'El navegador bloqueó la exportación (CORS).',err:'No se pudo cargar el archivo de aspectos. Ejecuta "node build.mjs" (o el workflow de GitHub) para generarlo.',
+ h2:'Tu colección',of:'de',val:'valor estimado',miss:'Falta para completar la lista “Quiero”',cols:'Colecciones más coleccionadas',wps:'Armas más completas',
+ ui:{'Buscar skin ou arma…':'Buscar aspecto o arma…','Tenho':'Tengo','Quero':'Quiero','Tenho:':'Tengo:','Quero:':'Quiero:','Estatísticas':'Estadísticas','Compartilhar':'Compartir','Imagem':'Imagen','Limpar':'Borrar','Raridade':'Rareza','Coleção':'Colección','Ordem padrão':'Orden estándar','Preço ↓':'Precio ↓','até':'hasta','Você está vendo uma lista compartilhada (não será salva).':'Estás viendo una lista compartida (no se guardará).','Salvar como minha':'Guardar como mía','Carregando…':'Cargando…','Fechar':'Cerrar','Lista: Tenho':'Lista: Tengo','Lista: Quero':'Lista: Quiero','Pequeno':'Pequeño','Médio':'Mediano','Grande':'Grande','Tema escuro':'Tema oscuro','Tema claro':'Tema claro','Agrupar por arma':'Agrupar por arma','Preços':'Precios','Gerar':'Generar','Baixar PNG':'Descargar PNG','Salvar PDF / Imprimir':'Guardar PDF / Imprimir','Projeto de fãs, não endossado pela Riot Games. VALORANT e Riot Games são marcas da Riot Games, Inc. Dados da valorant-api.com. Preços com "~" são estimativas pela raridade; facas e pacotes especiais podem variar.':'Proyecto de fans, no respaldado por Riot Games. VALORANT y Riot Games son marcas de Riot Games, Inc. Datos de valorant-api.com. Los precios con "~" son estimaciones según la rareza; cuchillos y paquetes especiales pueden variar.'}}
+};
+let D,all=[],cur,mode='o',shared=false,S={o:new Set(),w:new Set()};
+const enc=s=>[...s].map(x=>x.toString(36)).join('.');
+const dec=t=>new Set((t||'').split('.').filter(Boolean).map(x=>parseInt(x,36)));
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const save=()=>{if(!shared)try{localStorage[LS]=JSON.stringify({o:[...S.o],w:[...S.w]})}catch{}};
+const price=s=>s.cost?(s.est?'~':'')+s.cost.toLocaleString('pt-BR')+' VP':'—';
+
+function init(){
+  try{const j=JSON.parse(localStorage[LS]);S.o=new Set(j.o);S.w=new Set(j.w)}catch{}
+  const h=new URLSearchParams(location.hash.slice(1));
+  if(h.has('o')||h.has('w')){S.o=dec(h.get('o'));S.w=dec(h.get('w'));shared=true;$('ban').style.display='block'}
+  all=D.weapons.flatMap(w=>w.s.map(s=>({...s,w})));
+  D.tiers.forEach((t,i)=>$('fr').add(new Option(t.name,i)));
+  [...new Set(all.map(s=>s.th).filter(Boolean))].sort().forEach(v=>$('fn').add(new Option(v,v)));
+  $('inf').textContent=`${all.length} skins`;
+  drawList();pick(D.weapons[0]);tot();
+}
+function drawList(){
+  $('cl').innerHTML='';
+  D.weapons.forEach(w=>{
+    const n=w.s.filter(s=>S.o.has(s.id)).length,d=document.createElement('div');
+    d.className='ch'+(w===cur?' on':'');
+    d.innerHTML=`<img src="${w.icon}" loading="lazy" alt=""><div class="nm"><span>${esc(w.name)}</span><i class="pg"><u style="width:${n/w.s.length*100}%"></u></i></div>${n?`<b>${n}/${w.s.length}</b>`:''}`;
+    d.onclick=()=>{$('q').value='';pick(w)};$('cl').append(d);
+  });
+}
+const pick=w=>{cur=w;drawList();render()};
+function passes(s){
+  const p=+$('fp').value,r=$('fr').value;
+  return(r===''||s.t===+r)&&(!$('fn').value||s.th===$('fn').value)&&(!p||(s.cost&&s.cost<=p));
+}
+const heroP=()=>{const o=cur.s.filter(s=>S.o.has(s.id));return `<b>${o.length}</b> / ${cur.s.length} skins<span>${o.reduce((a,s)=>a+s.cost,0).toLocaleString('pt-BR')} VP</span>`};
+function render(){
+  const q=$('q').value.trim().toLowerCase();
+  let items=q?all.filter(s=>(s.name+' '+s.w.name+' '+s.th).toLowerCase().includes(q)):cur.s.map(s=>({...s,w:cur}));
+  items=items.filter(passes);
+  if($('so').value==='p')items.sort((a,b)=>b.cost-a.cost);
+  const total=items.length;items=items.slice(0,400);
+  const g=$('grid');
+  g.innerHTML=q?`<div class="hint">${M[lang].res}: ${total} skins${total>400?M[lang].more:''}</div>`:`<div class="hero"><img src="${cur.icon}" alt=""><h2>${esc(cur.name)}</h2><p>${heroP()}</p></div>`;
+  items.forEach((s,ix)=>{
+    const T=D.tiers[s.t],d=document.createElement('div');
+    d.className='sk'+(S.o.has(s.id)?' o':S.w.has(s.id)?' w':'');d.style.cssText=`--rc:${T.color};--i:${Math.min(ix,20)}`;
+    d.innerHTML=`<div class="im"><img src="${s.icon}" loading="lazy" alt="" onerror="this.style.opacity=.2"></div><div class="i"><b>${esc(s.name)}</b><span class="pr">${price(s)}</span><br><span class="tag">${esc(T.name)}</span>${q?`<br><small>${esc(s.w.name)}</small>`:''}</div>`;
+    d.onclick=()=>{
+      const m=S[mode],o=mode==='o'?S.w:S.o;
+      if(m.has(s.id))m.delete(s.id);else{m.add(s.id);o.delete(s.id)}
+      d.classList.remove('tg');void d.offsetWidth;d.classList.add('tg');d.classList.toggle('o',S.o.has(s.id));d.classList.toggle('w',S.w.has(s.id));
+      save();tot();drawList();const hp=g.querySelector('.hero p');if(hp)hp.innerHTML=heroP();
+    };
+    g.append(d);
+  });
+}
+function tot(){
+  let a=[0,0,0,0];
+  for(const s of all){if(S.o.has(s.id)){a[0]++;a[1]+=s.cost}if(S.w.has(s.id)){a[2]++;a[3]+=s.cost}}
+  ['no','ro','nw','rw'].forEach((id,i)=>$(id).textContent=a[i].toLocaleString('pt-BR'));
+}
+['q','fr','fn','so','fp'].forEach(i=>$(i).oninput=render);
+$('mo').onclick=()=>{mode='o';$('mo').className='on';$('mw').className=''};
+$('mw').onclick=()=>{mode='w';$('mw').className='on';$('mo').className=''};
+$('bc').onclick=()=>{if(confirm(M[lang].clr)){S.o.clear();S.w.clear();save();render();tot();drawList()}};
+$('keep').onclick=()=>{shared=false;save();$('ban').style.display='none';history.replaceState(null,'',location.pathname)};
+$('bl').onclick=async()=>{
+  const u=location.origin+location.pathname+'#o='+enc(S.o)+'&w='+enc(S.w);
+  try{await navigator.clipboard.writeText(u);alert(M[lang].cp)}catch{prompt(M[lang].cpy,u)}
+};
+document.querySelectorAll('.x').forEach(b=>b.onclick=()=>b.closest('.md').style.display='none');
+
+$('bs').onclick=()=>{
+  const m=M[lang],own=all.filter(s=>S.o.has(s.id)),want=all.filter(s=>S.w.has(s.id));
+  const sum=l=>l.reduce((a,s)=>a+s.cost,0);
+  const cnt=Object.entries(own.reduce((r,s)=>(s.th&&(r[s.th]=(r[s.th]||0)+1),r),{})).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const pc=D.weapons.map(w=>[w.name,w.s.filter(s=>S.o.has(s.id)).length,w.s.length]).filter(x=>x[1]).sort((a,b)=>b[1]/b[2]-a[1]/a[2]).slice(0,10);
+  $('sb').innerHTML=`<h2>${m.h2}</h2><p>${own.length} ${m.of} ${all.length} skins (${(own.length/all.length*100).toFixed(1)}%) · ${m.val}: <b>${sum(own).toLocaleString('pt-BR')} VP</b></p>
+  <p>${m.miss}: <b>${sum(want).toLocaleString('pt-BR')} VP</b> (${want.length} skins)</p>
+  <h3>${m.cols}</h3>${cnt.map(([n,v])=>`<div>${esc(n)} — ${v}</div>`).join('')||'—'}
+  <h3>${m.wps}</h3>${pc.map(([n,a,t])=>`<div>${esc(n)} — ${a}/${t}</div><div class="bar" style="width:${a/t*100}%"></div>`).join('')||'—'}`;
+  $('st').style.display='block';
+};
+$('bi').onclick=()=>$('ex').style.display='block';
+
+$('xm').onclick=async()=>{
+  const W=+$('xs').value,H=Math.round(W*.62),P=8,L=$('xl').value,dark=$('xt').value==='d',pr=$('xp').checked,RH=H+(pr?38:24);
+  const COLS=Math.max(3,Math.floor(1400/(W+P))),th=dark?['#0f1923','#ece8e1','#ff4655','#1d2e3d']:['#f3efe8','#1a1a1a','#c4313f','#ddd6c9'];
+  const groups=$('xg').checked?D.weapons.map(w=>({t:w.name,l:w.s.filter(s=>S[L].has(s.id)).map(s=>({...s,w}))})):[{t:'',l:all.filter(s=>S[L].has(s.id))}];
+  const lay=[],heads=[];let y=70;
+  for(const g of groups){
+    if(!g.l.length)continue;
+    if(g.t){heads.push([g.t,y+16]);y+=26}
+    g.l.forEach((it,i)=>lay.push({it,x:P+(i%COLS)*(W+P),y:y+Math.floor(i/COLS)*(RH+P)}));
+    y+=Math.ceil(g.l.length/COLS)*(RH+P)+P;
+  }
+  if(!lay.length)return alert(M[lang].empty);
+  const cv=document.createElement('canvas');cv.width=P+COLS*(W+P);cv.height=y+P;const x=cv.getContext('2d');
+  x.fillStyle=th[0];x.fillRect(0,0,cv.width,cv.height);x.fillStyle=th[2];x.font='bold 26px sans-serif';
+  x.fillText(`${L==='o'?M[lang].own:M[lang].wish} — ${lay.length} skins${pr?' — '+lay.reduce((a,l)=>a+l.it.cost,0).toLocaleString('pt-BR')+' VP':''}`,P+4,40);
+  x.font='bold 15px sans-serif';heads.forEach(([t,hy])=>x.fillText(t,P+4,hy));
+  await Promise.all(lay.map(({it,x:px,y:py})=>new Promise(res=>{
+    x.fillStyle=th[3];x.fillRect(px,py,W,H);x.fillStyle=D.tiers[it.t].color;x.fillRect(px,py,4,H);
+    const im=new Image();im.crossOrigin='anonymous';
+    im.onload=()=>{const r=Math.min((W-20)/im.width,(H-12)/im.height);x.drawImage(im,px+14+(W-20-im.width*r)/2,py+(H-im.height*r)/2,im.width*r,im.height*r);res()};
+    im.onerror=()=>res();im.src=it.icon;
+    x.fillStyle=th[1];x.font='12px sans-serif';const m=Math.floor(W/6.5);x.fillText(it.name.length>m?it.name.slice(0,m-1)+'…':it.name,px,py+H+15);
+    if(pr){x.fillStyle=th[2];x.fillText(price(it),px,py+H+30)}
+  })));
+  try{const u=cv.toDataURL('image/png');$('res').src=u;$('dl').href=u;$('ex').style.display='none';$('out').style.display='block'}
+  catch{alert(M[lang].cors)}
+};
+
+$('lg').value=lang;$('lg').onchange=()=>{try{localStorage.valLang=$('lg').value}catch{}location.reload()};
+document.documentElement.lang=lang;
+(function(){const X=M[lang].ui,w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),ns=[];
+ while(w.nextNode())ns.push(w.currentNode);
+ {const r=document.documentElement.style;r.setProperty('--lo',JSON.stringify('✓ '+(X['Tenho']||'Tenho')));r.setProperty('--lw',JSON.stringify('★ '+(X['Quero']||'Quero')))}
+ ns.forEach(n=>{const k=n.nodeValue.trim();if(X[k])n.nodeValue=n.nodeValue.replace(k,()=>X[k])});
+ document.querySelectorAll('[placeholder]').forEach(e=>{if(X[e.placeholder])e.placeholder=X[e.placeholder]})})();
+fetch(`skins.${lang}.json`).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{D=j;init()})
+ .catch(()=>{$('grid').textContent=M[lang].err});
+</script>
+</body>
+</html>
