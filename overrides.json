@@ -1,3 +1,75 @@
 {
-  "_exemplo-uuid-da-skin": { "name": "Nome opcional", "cost": 2175 }
+  "_fonte": "Preços de facas citados em guias de 2026 (Respawn/Outlook India, outras fontes). Nomes em inglês, iguais aos da API; os que não baterem aparecem como aviso no build.",
+  "Power Fist": {
+    "cost": 5950
+  },
+  "Onimaru Kunitsuna": {
+    "cost": 5350
+  },
+  "Reaver Butterfly Knife": {
+    "cost": 5350
+  },
+  "Kuronami no Yaiba": {
+    "cost": 5350
+  },
+  "Nocturnum Scythe and Dagger": {
+    "cost": 5350
+  },
+  "Waveform": {
+    "cost": 5350
+  },
+  "VALORANT Champions 2024 Blade": {
+    "cost": 5350
+  },
+  "VALORANT Champions 2025 Butterfly Knife": {
+    "cost": 5350
+  },
+  "VCT Champions 2022 Butterfly Knife": {
+    "cost": 5350
+  },
+  "Elderflame Dagger": {
+    "cost": 4950
+  },
+  "Personal Administrative Melee Unit": {
+    "cost": 4950
+  },
+  "Evori's Spellcaster": {
+    "cost": 4950
+  },
+  "Mystbloom Fanblade": {
+    "cost": 4350
+  },
+  "Mystbloom Kunai": {
+    "cost": 4350
+  },
+  "ORA by OneTap Knife": {
+    "cost": 4350
+  },
+  "Doombringer Battleaxe": {
+    "cost": 4350
+  },
+  "Singularity Butterfly Knife": {
+    "cost": 4350
+  },
+  "RGX 11z Pro Karambit": {
+    "cost": 4350
+  },
+  "Eternal Sovereign": {
+    "cost": 4350
+  },
+  "Divergence Staff": {
+    "cost": 4350
+  },
+  "Bolt Knife": {
+    "cost": 4350
+  },
+  "Helix Daggers": {
+    "cost": 4350
+  },
+  "Magepunk Electroblade": {
+    "cost": 3650
+  },
+  "5 Years // Beta Remastered Knife": {
+    "cost": 3915
+  }
 }
